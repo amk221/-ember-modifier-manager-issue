@@ -4,7 +4,7 @@ import { registerDestructor } from '@ember/destroyable';
 export default class MyModifier extends Modifier {
   constructor() {
     super(...arguments);
-    registerDestructor(this, this._tearDown.bind(this));
+    registerDestructor(this, this._tearDown);
   }
 
   modify(element, positional, named) {
@@ -23,7 +23,7 @@ export default class MyModifier extends Modifier {
     this.didSetup = true;
   }
 
-  _tearDown() {
+  _tearDown = () => {
     console.log('teardown');
   }
 }
