@@ -1,20 +1,27 @@
-import myModifier from 'example/modifiers/my-modifier';
-import { on } from '@ember/modifier';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import Items from 'example/components/items';
 
-<template>
-  <div {{(if @enable (modifier myModifier array=@array))}}>
-    {{#each @array as |item|}}
-      {{item}},
-    {{/each}}
-  </div>
+export default class extends Component {
+  @tracked enable;
+  @tracked array = ['a', 'b', 'c'];
 
-  <br /><br />
+  toggle = () => {
+    console.log('toggle');
+    this.enable = !this.enable;
+  };
 
-  <button class="a" type="button" {{on "click" @onToggle}}>
-    Toggle modifier
-  </button>
+  doSomething = () => {
+    console.log('do something');
+    this.array = [...this.array, 'd'];
+  };
 
-  <button class="b" type="button" {{on "click" @onDoSomething}}>
-    Do Something
-  </button>
-</template>
+  <template>
+    <Items
+      @enable={{this.enable}}
+      @array={{this.array}}
+      @onToggle={{this.toggle}}
+      @onDoSomething={{this.doSomething}}
+    />
+  </template>
+}
